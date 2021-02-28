@@ -1,0 +1,19 @@
+.detail-text {
+    width: 600px;
+    padding-left: 50px;
+}
+
+.detail-header {
+    width: 150px;
+}
+
+td {
+    /* widKCth: 100%; */
+}
+
+tr {
+    /* width: 600px; */
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
