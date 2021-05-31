@@ -1,0 +1,64 @@
+version: '3.2'
+
+services: 
+    # nginx-proxy:
+    #     image: jwilder/nginx-proxy
+    #     restart: "always"
+    #     ports:
+    #         - "80:80"
+    #     volumes:
+    #         - /var/run/docker.sock:/tmp/docker.sock:ro
+    #         - ./nginx/vhost/:/etc/nginx/vhost.d:ro
+    #         - ./nginx/conf.d/client_max_body_size.conf:/etc/nginx/conf.d/client_max_body_size.conf:ro
+    #         - ./static/:/amd/static
+    #         - ./media/:/amd/media
+    #         - ./nginx/proxy.conf/:/etc/nginx/proxy.conf
+    postgres:
+        image: postgres:9.6.6
+        restart: always
+        volumes:
+            - ./pgdb/:/var/lib/postgresql/
+        ports:
+            - "5432:5432"
+        env_file: ./.env
+
+    redis:
+        image: redis
+        ports:
+            - 6379:6379
+        restart: always
+
+
+    web:
+        container_name: amd
+        build: .
+        restart: "always"
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/code/
+            # - ./static/:/code/static
+            # - ./media/:/code/media
+        depends_on:
+            - "postgres"
+        env_file: ./.env
+
+    celery:
+        build:
+            context: .
+            dockerfile: celery.dockerfile
+        volumes:
+            - .:/code
+        command: celery -A amdtelecom worker -l info   
+        links:
+            - redis
+            - postgres
+        depends_on:
+            - "redis"
+            - "postgres"
+        env_file: ./.env
+
+networks:
+    default:
+        external:
+            name: nginx-proxy

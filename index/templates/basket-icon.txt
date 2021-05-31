@@ -1,0 +1,9 @@
+                                    <div>
+                                        <a id="basket-icon" href="{% url 'order:cart' %}">
+                                            <i class="ti-shopping-cart"></i>
+                                            <span class='basket-badge basket-badge' id='lblCartCount'></span>    
+                                        </a>
+                                    </div>
+
+                                        {% get_navbar as protocol %}
+    <input id="YOUR_ENV_VARIABLE" value="{{ protocol.api_url }}" type="" />

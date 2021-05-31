@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_tags %}
+{% block price_range_css %}
+<!-- price range -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/price-range.css' %}"> 
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> 
+
+{% endblock %}
+
+{% block content %}
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="page-title">
+                <h2>Kolleksiya</h2>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index:home' %}">ƏSAS SƏHİFƏ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Kolleksiya</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+</div>
+<!-- breadcrumb end -->
+
+
+<!-- section start -->
+<section class="section-b-space ratio_asos">
+<div class="collection-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="collection-content col">
+                <div class="page-main-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {% comment %} <div class="top-banner-wrapper">
+                                <a href="#"><img src="{% static 'images/mega-menu/2.jpg' %}" class="img-fluid blur-up lazyload" alt=""></a>
+                                <div class="top-banner-content small-section">
+                                    <h4>fashion</h4>
+                                    <h5>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    </h5>
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
+                                        it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release
+                                        of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                </div>
+                            </div> {% endcomment %}
+                            <div class="collection-product-wrapper">
+                                <div class="product-top-filter">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="filter-main-btn"><span class="filter-btn btn btn-theme"><i class="fa fa-filter"
+                                                        aria-hidden="true"></i> Filter</span></div>
+                                        </div>
+                                    </div>
+                                    {% comment %} <div class="row">
+                                        <div class="col-12">
+                                            <div class="product-filter-content">
+                                                <div class="search-count">
+                                                    <h5>Showing Products 1-24 of 10 Result</h5>
+                                                </div>
+                                                <div class="collection-view">
+                                                    <ul>
+                                                        <li><i class="fa fa-th grid-layout-view"></i></li>
+                                                        <li><i class="fa fa-list-ul list-layout-view"></i></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="collection-grid-view">
+                                                    <ul>
+                                                        <!-- <li><img src="{% static 'images/icon/2.png' %}" alt="" class="product-2-layout-view"></li>
+                                                        <li><img src="{% static 'images/icon/3.png' %}" alt="" class="product-3-layout-view"></li> -->
+                                                        <li><img src="{% static 'images/icon/4.png' %}" alt="" class="product-4-layout-view"></li>
+                                                        <li><img src="{% static 'images/icon/6.png' %}" alt="" class="product-6-layout-view"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product-page-per-view">
+                                                    <select>
+                                                        <option value="High to low">24 Products Par Page
+                                                        </option>
+                                                        <option value="Low to High">50 Products Par Page
+                                                        </option>
+                                                        <option value="Low to High">100 Products Par Page
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="product-page-filter">
+                                                    <select>
+                                                        <option value="High to low">Sorting items</option>
+                                                        <option value="Low to High">50 Products</option>
+                                                        <option value="Low to High">100 Products</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> {% endcomment %}
+                                <div class="row" style="padding: 20px;">
+                                    <h3 id="search-result-value">AXTARIŞIN NƏTİCƏLƏRİ:</h3>
+                                </div>
+                                <div class="product-wrapper-grid product-load-more">
+                                    <div id="all-search-page-body" class="row margin-res prod-items">
+                                        {% for product in products %}
+                                            {% if product.operator_code == None %}
+                                            <div class="col-xl-4 col-sm-12 col-md-6 col-grid-box category-pro" for-filter="{{product.category.all.0.id}}">
+                                                <div class="product-box">           
+                                                    <div class="img-wrapper">
+                                                        {% if product.is_new %}<div class="lable-block"><span class="lable3">Yeni</span></div>{% endif %}
+                                                        {% if product.is_discount %}<div class="lable-block"><span class="lable3" style="left:unset; right:7px">Endirim</span></div>{% endif %}
+                                                        <div class="front">
+                                                            <a href="{% url 'product:product_detail' product.slug %}">
+                                                                {% for image in product.images.all %}
+                                                                {% if image.is_main %}
+                                                                <img
+                                                                    src="{{ image.image.url }}"
+                                                                    class="img-fluid blur-up lazyload bg-img" alt="">
+                                                                {% endif %}
+                                                                {% endfor %}
+                                                                </a>
+                                                        </div>
+                                                        <div class="back">
+                                                            <a href="{% url 'product:product_detail' product.slug %}">
+                                                                {% for image in product.images.all %}
+                                                                {% if image.is_second_main %}
+                                                                <img
+                                                                    src="{{ image.image.url }}"
+                                                                    class="img-fluid blur-up lazyload bg-img" alt="{{ image.image }}">
+                                                                {% endif %}
+                                                                {% endfor %}
+                                                                </a>
+                                                        </div>
+                                                        <div class="cart-info cart-wrap" style="top: 45px">
+                                                            <!-- <button data-toggle="modal" data-target="#addtocart" title="Add to cart">
+                                                                <i class="ti-shopping-cart"></i>
+                                                            </button> -->
+                                                            <button 
+                                                                    data-target="#addtocart"
+                                                                    title="Add to cart"
+                                                                    class='my-carts-button'>
+                                                                {% get_order_item_id product.id as oritid %}
+                                                                {% if oritid != None %}
+                                                                <i  class="ti-shopping-cart my-cart-icon do-green"
+                                                                    data-id-cart= {{ product.id }}
+                                                                    data-id-order= {{ order.id }}
+                                                                    data-id-customer= {{ customer.id }}
+                                                                    data-id-orderitem= {{ oritid }}></i>
+                                                                {% else %}
+                                                                <i data-id-cart= {{ product.id }}
+                                                                    data-id-order= {{ order.id }}
+                                                                    data-id-customer= {{ customer.id }}
+                                                                    data-id-orderitem= {{ oritid }}
+                                                                    class="ti-shopping-cart my-cart-icon do-gray">
+                                                                </i>
+                                                                    {% endif %}
+                                                            </button>
+                                                            <!-- <a href="javascript:void(0)" title="Add to Wishlist">
+                                                                <i class="ti-heart" aria-hidden="true"></i>
+                                                            </a> -->
+                                                            <!-- <a href="#" data-toggle="modal" data-target="#quick-view" title="Quick View">
+                                                                <i class="ti-search" aria-hidden="true"></i>
+                                                            </a> -->
+                                                            <!-- <a href="#" data-toggle="modal" data-target="#{{ product.id }}tab-1" title="Quick View">
+                                                                <i class="ti-search" aria-hidden="true"></i>
+                                                            </a> -->
+                                                            <!-- <a href="compare.html" title="Compare">
+                                                                <i class="ti-reload" aria-hidden="true"></i>
+                                                            </a> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-detail">
+                                                        <div>
+                                                            {% comment %} <div class="rating"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div> {% endcomment %}
+                                                            <a href="{% url 'product:product_detail' product.slug %}">
+                                                                 <h6>{% if product.marka.all.first %}
+                                                                    {{ product.marka.all.first|upper }} 
+                                                                    {% endif %}
+                                                                    {% if product.title %}
+                                                                    {{product.title|upper}}
+                                                                    {% endif %} 
+                                                                    {% if product.ram %}
+                                                                    {{product.ram|upper}} GB/ 
+                                                                    {% endif %} 
+                                                                    {% if product.internal_storage %}
+                                                                    {{product.internal_storage|upper }} GB
+                                                                    {% endif %} 
+                                                                    {% if product.color_title %}
+                                                                    {{product.color_title|upper}} 
+                                                                    {% endif %}</h6>
+                                                            </a>
+                                                            <p>{{ product.description }}
+                                                            </p>
+                                                            <h4 class="">{{ product.get_price }} 
+                                                                <svg style='width: 1em; height: 1em;'  data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                                                    <defs>
+                                                                        <style>
+                                                                            .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                                                        </style>
+                                                                    </defs>
+                                                                    <title>manat</title>
+                                                                    <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                                                </svg>
+                                                                {% if product.is_discount %} <del class="ml-2">{{ product.price }} 
+                                                                    <svg style='width: 1em; height: 1em;' data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                                                        <defs>
+                                                                            <style>
+                                                                                .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                                                            </style>
+                                                                        </defs>
+                                                                        <title>manat</title>
+                                                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                                                    </svg>
+                                                                </del> 
+                                                                {% endif %}
+                                                            {% comment %} {% if product.color_title %}
+                                                            <ul class="color-variant">
+                                                                <li class="bg-light0" style="background-color: {{ product.color_code }} !important;"></li>
+                                                                <!-- <li class="bg-light1"></li>
+                                                                <li class="bg-light2"></li> -->
+                                                            </ul>
+                                                            {% endif %} {% endcomment %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                                <div class="col-xl-4  col-sm-12 col-md-6 col-grid-box category-pro" for-filter="{{product.category.all.0.id}}" style="margin-top: 20px;">
+                                                    <div class="numberCard">
+                                                        <div class="numberCard__container">
+
+                                                            <div class="numberCard__container__head">
+
+                                                                <ul>
+                                                                    <li>
+                                                                        <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true" style="cursor:pointer">
+                                                                            <path d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"></path>
+                                                                        </svg>
+                                                                    </li>
+                                                                    <li>
+                                                                        <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                                                            <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"></path>
+                                                                        </svg>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+
+                                                            <div class="numberCard__container__body">
+                                                                <div class="numberCard__container__body-img">
+                                                                    <img src="{{ product.marka.all.0.image.url }}" alt="" style="height: 72px; width: 72px;">
+                                                                </div>
+                                                                <div class="numberCard__container__body-number">
+                                                                    <p class="m-0 text-dark">(<!-- -->{{ product.operator_code }}<!-- -->) <!-- -->{{ product.title }}</p>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="numberCard__container__footer">
+                                                                <div class="numberCard__container__footer-price">
+                                                                    <span class="text-dark">
+                                                                        {{ product.price }}
+                                                                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                                                            <defs>
+                                                                                <style>
+                                                                                    .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                                                                </style>
+                                                                            </defs>
+                                                                            <title>manat</title>
+                                                                            <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                <script>
+                                    let count = 0
+                                    let datas = document.querySelectorAll('.category-pro')
+                                    count = datas.length
+                                    let resultCount = document.querySelector('#search-result-value')
+                                    resultCount.innerHTML = 'AXTARIŞIN NƏTİCƏLƏRİ: 0'
+                                    resultCount.innerHTML = `AXTARIŞIN NƏTİCƏLƏRİ: ${count}`
+                                </script>
+                                </div>
+                                <div class="load-more-sec"><a href="javascript:void(0)" class="loadMore">load
+                                        more</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+<!-- section End -->
+
+{% endblock %}
+
+
+{% block price_range_js %}
+
+<!-- search filter js -->
+<script src="{% static 'js/search-filter.js' %}"></script>
+
+{% endblock price_range_js %}

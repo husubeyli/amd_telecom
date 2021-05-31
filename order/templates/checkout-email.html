@@ -1,0 +1,61 @@
+<div>
+    <p>Ad: {{ order.name }}</p>
+    <p>Soyad: {{ order.surname }}</p>
+    <p>Email: {{ order.email }}</p>
+    <p>Telefon: {{ order.tel_number }}</p>
+    <p>İsmarıc: {{ order.message }}</p>
+    {% for item in order.orderitem_set.all %}
+    <div style="display: flex;">
+     <p>Sifaris: {% if item.product.marka.all.first %}
+                {{ item.product.marka.all.first|upper }} 
+                {% endif %}
+                {% if item.product.title %}
+                {{item.product.title|upper}}
+                {% endif %} 
+                {% if item.product.ram %}
+                {{item.product.ram|upper}} /
+                {% endif %}  
+                {% if item.product.internal_storage %}
+                {{item.product.internal_storage|upper}}
+                {% endif %} 
+                {% if item.product.color_title %}
+                {{item.product.color_title|upper}} 
+                {% endif %} </p>
+     <p style="margin-left: 2em;">Miqdar: {{item.quantity}}</p>
+    </div>
+    {% endfor %}
+
+    
+</div>
+
+{% comment %} <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Ad</th>
+      <th scope="col">Soyad</th>
+      <th scope="col">Email</th>
+      <th scope="col">Telefon</th>
+      <th scope="col">Sifaris</th>
+      <th scope="col">Miqdar</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>{{ order.name }}</td>
+        <td>{{ order.surname }}</td>
+        <td>{{ order.email }}</td>
+        <td>{{ order.tel_number }}</td>
+        <td>{{ order.message }}</td>
+        {% for item in order.orderitem_set.all %}
+            <td>{{item.product.title}}</td>
+            <td>{{item.quantity}}</td>
+
+        {% endfor %}
+
+
+    </tr>
+    
+  </tbody>
+</table> {% endcomment %}

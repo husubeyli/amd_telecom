@@ -1,0 +1,547 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+                <div class="result alert alert-danger">
+                    {{message}}
+                </div>
+    {% endfor %}
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+    <style>
+    /* .form-name:invalid {
+        border: 2px solid red;
+        color: red;
+    } */
+
+    /* .form-surname:invalid {
+        border: 2px solid red;
+    }
+    .form-surname input{
+        color: red;
+    }
+    .form-name input{
+        color: red;
+    } */
+    /* .form-num-prefix:invalid {
+        border: 2px solid red;
+    } */
+    /* .form-number:invalid {
+        border: 2px solid red;
+    } */
+    /* .form-email[type=email]{
+        
+    }
+    .form-email:invalid{
+        border-color: red;
+    } */
+
+    /* .form-number {
+        margin-top: -4px;
+    }
+
+    .form-number-kod {
+        margin-top: -7px;
+    }
+
+    .invalid-feedback {
+        margin-top: -20px;
+    }
+
+    .form-email {
+        margin-top: -4px;
+    } */
+
+    
+
+    /* .select-country {
+        margin: auto !important;
+        padding: 40px;
+    } */
+
+    /* .opt {
+        margin:auto;
+        padding: 0 25px 0 0 !important;
+    } */
+    </style>
+    <!-- breadcrumb start -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title">
+                        <h2>səbət</h2>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index:home' %}">ANA SƏHİFƏ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">SİFARİŞ</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb End -->
+
+
+    <!-- section start -->
+    <section class="section-b-space">
+        <div class="container">
+            <div class="checkout-page">
+                <div class="checkout-form">
+                    <form method="POST" class="needs-validation" novalidate>
+                        <div class="row form-row">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <div class="checkout-title">
+                                    <h3>Sifarişçi Məlumatları</h3>
+                                </div>
+                                <div class="row check-out">
+                                    {% csrf_token %}
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group form-name">
+                                                <label class="form-label">Ad: *</label>
+                                                {{form.name}}
+                                                {{form.name.errors}}
+                                                <div class="invalid-feedback err-name"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group form-surename">
+                                                <label class="form-label">Soyad: *</label>
+                                                    {{form.surname}}
+                                                    {{form.surname.errors}}
+                                                <div class="invalid-feedback err-surename"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group form-phone">
+                                                <label class="form-label">Telefon Nömrəsi: * </label>
+                                                {{form.tel_number}}
+                                                <div class="invalid-feedback err-phone"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group form-email">
+                                                <label class="form-label">E-poçt: * </label>
+                                                {{form.email}}
+                                                {{form.email.errors}}
+                                                <div class="invalid-feedback err-email"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="validationCustom01" class="form-label">İsmarıc: </label>
+                                                {{ form.message }}
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <style>/* Chrome, Safari, Edge, Opera */
+                                input::-webkit-outer-spin-button,
+                                input::-webkit-inner-spin-button {
+                                  -webkit-appearance: none;
+                                  margin: 0;
+                                }
+                                /* Firefox */
+                                input[type=number] {
+                                  -moz-appearance: textfield;
+                                }</style>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <div class="checkout-details">
+                                
+                                    <div class="order-box">
+                                        <div class="title-box">
+                                            <div>Məhsul<span>Qiymət</span></div>
+                                        </div>
+                                        {% for item in items %}
+                                        <ul class="qty">
+                                            <li>{% if item.product.marka.all.first %}
+                            {{ item.product.marka.all.first|upper }} 
+                            {% endif %}
+                            {% if item.product.title %}
+                            {{item.product.title|upper}}
+                            {% endif %} 
+                            {% if item.product.ram %}
+                            {{item.product.ram|upper}} GB/
+                            {% endif %}  
+                            {% if item.product.internal_storage %}
+                            {{item.product.internal_storage|upper}}GB
+                            {% endif %} 
+                            {% if item.product.color_title %}
+                            {{item.product.color_title|upper}} 
+                            {% endif %} × {{ item.quantity }} ədəd
+                            <span>{{ item.product.get_price }}
+                                <span>
+                                    <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                        <defs>
+                                            <style>
+                                                .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                            </style>
+                                        </defs>
+                                        <title>manat</title>
+                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                    </svg>
+                                </span>
+                            </span></li>
+                                        </ul>
+                                        {% endfor %}
+                                        {% comment %} <ul class="sub-total">
+                                            <li>Subtotal <span class="count">$380.10</span></li>
+                                            <li>Shipping
+                                                <div class="shipping">
+                                                    <div class="shopping-option">
+                                                        <input type="checkbox" name="free-shipping" id="free-shipping">
+                                                        <label for="free-shipping">Free Shipping</label>
+                                                    </div>
+                                                    <div class="shopping-option">
+                                                        <input type="checkbox" name="local-pickup" id="local-pickup">
+                                                        <label for="local-pickup">Local Pickup</label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul> {% endcomment %}
+                                        <ul class="total">
+                                            <li>Cəmi Endirim<span class="count">{{order.get_discount_total|floatformat:2}}
+                                                <span>
+                                                    <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                                        <defs>
+                                                            <style>
+                                                                .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                                            </style>
+                                                        </defs>
+                                                        <title>manat</title>
+                                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                                    </svg>
+                                                </span>
+                                            </span></li>
+                                            <li>Cəmi Məbləğ<span class="count">{{total}}
+                                                <span>
+                                                    <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                                        <defs>
+                                                            <style>
+                                                                .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                                            </style>
+                                                        </defs>
+                                                        <title>manat</title>
+                                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                                    </svg>
+                                                </span>
+                                            </span></li>
+                                        </ul>
+                                    </div>
+                        
+
+
+                                    <div class="payment-box">
+                                        <div class="upper-box">
+                                            <div class="payment-options">
+                                                <ul>
+                                                    <li>
+                                                        <!-- <div class="radio-option">
+                                                            <input type="radio" name="payment-group" id="payment-1"
+                                                                checked="checked">
+                                                            <label for="payment-1">Check Payments<span
+                                                                    class="small-text">Please send a check to Store
+                                                                    Name, Store Street, Store Town, Store State /
+                                                                    County, Store Postcode.</span></label>
+                                                        </div> -->
+                                                    </li>
+                                                    <li>
+                                                        <!-- <div class="radio-option">
+                                                            <input type="radio" name="payment-group" id="payment-2">
+                                                            <label for="payment-2">Cash On Delivery<span
+                                                                    class="small-text">Please send a check to Store
+                                                                    Name, Store Street, Store Town, Store State /
+                                                                    County, Store Postcode.</span></label>
+                                                        </div> -->
+                                                    </li>
+                                                    <li>
+                                                        <!-- <div class="radio-option paypal">
+                                                            <input type="radio" name="payment-group" id="payment-3">
+                                                            <label for="payment-3">PayPal<span class="image"><img
+                                                                        src="../assets/images/paypal.png"
+                                                                        alt=""></span></label>
+                                                        </div> -->
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <input class="text-right btn-solid btn" type="submit" value="SİFARİŞİ GÖNDƏR">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- section end -->
+    <!-- <script src="{% static 'js/cleave.js' %}"></script>
+    <script src="{% static 'js/cleave-phone.i18n.js' %}"></script> -->
+    <script>
+        // var error = document.querySelector('.error');
+        // var form  = document.getElementsByTagName('form')[0];
+        // form.addEventListener("submit", function (event) {
+        //     // Каждый раз, когда пользователь пытается отправить данные, мы проверяем
+        //     // валидность поля электронной почты.
+
+        //     let numfield = document.querySelector('.form-number > input')
+        //     console.log(`nomre uzunlugu: ${numfield.value.length}`)
+        //     if (numfield.value.length < 13) {
+
+        //     //     // Если поле невалидно, отображается пользовательское
+        //     //     // сообщение об ошибке.
+        //         error.innerHTML = "I expect an e-mail, darling!";
+        //         error.className = "error active";
+        //     //     // И мы предотвращаем отправку формы путем отмены события
+        //         event.preventDefault();
+        //     }
+        //     }, false);
+
+
+        // (function () {
+        //     'use strict'
+
+        //     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        //     var forms = document.querySelectorAll('.needs-validation')
+
+        //     // Loop over them and prevent submission
+        //     Array.prototype.slice.call(forms)
+        //         .forEach(function (form) {
+        //         form.addEventListener('submit', function (event) {
+        //             if (!form.checkValidity()) {
+        //             event.preventDefault()
+        //             event.stopPropagation()
+        //             }
+
+        //             form.classList.add('was-validated')
+        //         }, false)
+        //         })
+        //     })()
+        
+
+        // var cleave = new Cleave('.form-number > input', {
+        //     phone:true,
+        //     phoneRegionCode:'AZ'
+        // }) 
+
+        // $('.select-country').change(function(){
+        //     cleave.setPhoneRegionCode(this.value);
+        //     cleave.setRawValue('');
+        // })
+
+        // name validation by input event
+        let errorName = document.querySelector('.err-name');
+        let nameInput = document.querySelector('.form-name > input')
+        nameInput.addEventListener('input', function (event) {
+            if (nameInput.value.length === 0) {
+                errorName.innerHTML = "Ad boş ola bilməz";
+                nameInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+            } else if(nameInput.value.length < 3){
+                if (!/^[a-zA-Z]+$/.test(nameInput.value)){
+                    errorName.innerHTML = "Ad yalnız hərflərdən ibarət olmalıdı";
+                    nameInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    errorName.innerHTML = "Ad minimum 3 hərfli olmalıdır";
+                    nameInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            } else if(nameInput.value.length > 2){
+                if (!/^[a-zA-Z]+$/.test(nameInput.value)){
+                    console.log('girdi')
+                    // errorName.innerHTML = "";
+                    errorName.innerHTML = "Ad yalnız hərflərdən ibarət olmalıdı";
+                    nameInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else if (nameInput.value.length > 20){
+                    errorName.innerHTML = "Ad maximum 20 hərfli olmalıdı";
+                    nameInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    errorName.innerHTML = "";
+                    console.log(`${/^[a-zA-Z]+$/.test(nameInput.value)}`)
+                    nameInput.classList.remove('is-invalid');
+                    nameInput.classList.add("is-valid");
+                }
+            }  
+        })
+
+        // surename validation by input event
+        let errorSurename = document.querySelector('.err-surename');
+        let surenameInput = document.querySelector('.form-surename > input')
+        surenameInput.addEventListener('input', function (event) {
+            if (surenameInput.value.length === 0) {
+                errorSurename.innerHTML = "Soyad boş ola bilməz";
+                surenameInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+            } else if(surenameInput.value.length < 3){
+                if (!/^[a-zA-Z]+$/.test(surenameInput.value)){
+                    errorSurename.innerHTML = "Soyad yalnız hərflərdən ibarət olmalıdı";
+                    surenameInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    errorSurename.innerHTML = "Soyad minimum 3 hərfli olmalıdır";
+                    surenameInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            } else if(surenameInput.value.length > 2){
+                if (!/^[a-zA-Z]+$/.test(surenameInput.value)){
+                    // console.log('girdi')
+                    // errorName.innerHTML = "";
+                    errorSurename.innerHTML = "Ad yalnız hərflərdən ibarət olmalıdı";
+                    surenameInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else if (surenameInput.value.length > 20){
+                    errorSurename.innerHTML = "Ad maximum 20 hərfli olmalıdı";
+                    surenameInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    errorSurename.innerHTML = "";
+                    // console.log(`${/^[a-zA-Z]+$/.test(surenameInput.value)}`)
+                    surenameInput.classList.remove('is-invalid');
+                    surenameInput.classList.add("is-valid");
+                }
+            }  
+        })
+
+        // phone number validation by input event
+        let errorPhone = document.querySelector('.err-phone');
+        let phoneInput = document.querySelector('.form-phone > input')
+        phoneInput.addEventListener('input', function (event) {
+            if (phoneInput.value.length === 0) {
+                errorPhone.innerHTML = "Mobil nömrə boş ola bilməz";
+                phoneInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+                // /^\d+$/.test(val)
+            } else if(phoneInput.value.length < 10){
+                if (!/^\d+$/.test(phoneInput.value)){
+                    errorPhone.innerHTML = "Mobil nömrə rəqəmlərdən ibarət olmalıdı";
+                    phoneInput.classList.add("is-invalid");
+                    event.preventDefault();{}
+                    event.stopPropagation();   
+                } else if (phoneInput.value.length >= 3 && phoneInput.value.slice(0, 3) !== "050" && phoneInput.value.slice(0, 3) !== "051" && phoneInput.value.slice(0, 3) !== "055" && phoneInput.value.slice(0, 3) !== "070" && phoneInput.value.slice(0, 3) !== "077" && phoneInput.value.slice(0, 3) !== "099"){
+                    errorPhone.innerHTML = "Yalnış prefix, nömrə bu prexiflərdən biri ilə başlamalıdr '050' '051' '055' '070' '077' '099'";
+                    phoneInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else if (phoneInput.value.length >= 4 && phoneInput.value.charAt(3) === '0') {
+                    errorPhone.innerHTML = "Mobil operator prefixindən sonrakı rəqəm 0 ola bilməz";
+                    phoneInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    errorPhone.innerHTML = "Nümunə format 0502702569";
+                    phoneInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            } else if(phoneInput.value.length === 10){
+                console.log(phoneInput.value.slice(0, 3))
+                console.log(typeof(phoneInput.value.slice(0, 3)))
+                console.log('girdi')
+                if (!/^\d+$/.test(phoneInput.value)){
+                    // console.log('girdi')
+                    // errorName.innerHTML = "";
+                    errorPhone.innerHTML = "Mobil nömrə rəqəmlərdən ibarət olmalıdı";
+                    phoneInput.classList.add("is-invalid");
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    errorPhone.innerHTML = "";
+                    // console.log(`${/^[a-zA-Z]+$/.test(surenameInput.value)}`)
+                    phoneInput.classList.remove('is-invalid');
+                    phoneInput.classList.add("is-valid");
+                }
+            }
+        })
+
+        // email validation by input event
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let errorEmail = document.querySelector('.err-email');
+        let emailInput = document.querySelector('.form-email > input')
+        emailInput.addEventListener('input', function (event) {
+            if (emailInput.value.length === 0) {
+                errorEmail.innerHTML = "E-poçt boş ola bilməz";
+                emailInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+                // /^\d+$/.test(val)
+            } else if(!re.test(String(emailInput.value).toLowerCase())){
+                errorEmail.innerHTML = "Yalnış e-poçt adresi";
+                emailInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+            }else {
+                    errorEmail.innerHTML = "";
+                    // console.log(`${/^[a-zA-Z]+$/.test(surenameInput.value)}`)
+                    emailInput.classList.remove('is-invalid');
+                    emailInput.classList.add("is-valid");
+                }
+        })
+
+        // submit button validation
+        let form  = document.getElementsByTagName('form')[0];
+        form.addEventListener("submit", function (event) {
+            //// name validation
+            if (nameInput.value.length === 0) {
+                errorName.innerHTML = "Ad boş ola bilməz";
+                nameInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+            } else if(nameInput.classList.contains("is-invalid")){
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            //// surename validation
+            if (surenameInput.value.length === 0) {
+                errorSurename.innerHTML = "Soyad boş ola bilməz";
+                surenameInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+            } else if(surenameInput.classList.contains("is-invalid")){
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            //// phone number validation
+            if (phoneInput.value.length === 0) {
+                errorPhone.innerHTML = "Mobil nömrə boş ola bilməz";
+                phoneInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+            } else if(phoneInput.classList.contains("is-invalid")){
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            //// phone number validation
+            if (emailInput.value.length === 0) {
+                errorEmail.innerHTML = "E-poçt boş ola bilməz";
+                emailInput.classList.add("is-invalid");
+                event.preventDefault();
+                event.stopPropagation();
+            } else if(emailInput.classList.contains("is-invalid")){
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            }, false);
+    </script>
+
+    <!-- footer start -->
+   {% endblock %}

@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% load static %}
+{% if order != None %}
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h2>SƏBƏT</h2>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index:home' %}">ANA SƏHİFƏ</a></li>
+                        <li class="breadcrumb-item active">SƏBƏT</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb End -->
+
+
+<!--section start-->
+<section class="cart-section section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table cart-table table-responsive-xs">
+                    <thead>
+                        <tr class="table-head">
+                            <th scope="col">ŞƏKİL</th>
+                            <th scope="col">MƏHSUL</th>
+                            <th scope="col">QİYMƏT</th>
+                            <th scope="col">SAY</th>
+                            <th scope="col">ENDİRİM</th>
+                            <th scope="col">SİL</th>
+                            <th scope="col">CƏMİ</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for item in order.orderitem_set.all %}
+                        <tr>
+                            <td>
+                                {% for id, img in imgs.items %}
+                                    {% if id == item.id %}
+                                        <a href="#"><img src="{{ img }}" alt=""></a>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><a class="product-title" href="{% url 'product:product_detail' item.product.slug %}">
+                                {% if item.product.marka.all.first %}
+                                {{ item.product.marka.all.first|upper }} 
+                                {% endif %}
+                                {% if item.product.title %}
+                                {{item.product.title|upper}}
+                                {% endif %} 
+                                {% if item.product.ram %}
+                                {{item.product.ram|upper}} GB/
+                                {% endif %}  
+                                {% if item.product.internal_storage %}
+                                {{item.product.internal_storage|upper}}GB
+                                {% endif %} 
+                                {% if item.product.color_title %}
+                                {{item.product.color_title|upper}} 
+                                {% endif %}
+                            </a>
+                                <div class="mobile-cart-content row">
+                                    <div class="col-xs-3">
+                                        <div class="qty-box">
+                                            <div class="input-group">
+                                                <input type="text" name="quantity" class="form-control input-number"
+                                                    value="1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <h2 class="td-color price" class='data-price'>{{item.product.price}}
+                                            <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                                <defs>
+                                                    <style>
+                                                        .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                                    </style>
+                                                </defs>
+                                                <title>manat</title>
+                                                <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                            </svg>
+                                        </h2>
+                                    </div>
+                                    <div class="col-xs-3 cartquantity">
+                                        <h2 class="td-color"><a href="#" class="icon" id="delete-order-item"><i data-id={{item.id}} class="ti-close del"></i></a></h2>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h2 class=""> {{item.product.get_price}}
+                                    <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                        <defs>
+                                            <style>
+                                                .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                            </style>
+                                        </defs>
+                                        <title>manat</title>
+                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                    </svg>
+                                </h2>
+                            </td>
+                            <td>
+                                <div class="qty-box">
+                                    <div class="input-group">
+                                        <input
+                                            max="9"
+                                            min="0"
+                                            type="number"
+                                            name="quantity"
+                                            discount-unit={{item.product.get_discount}}
+                                            data-id-patch={{item.id}}
+                                            class="form-control input-number change-quantity"
+                                            value="{{item.quantity}}" on>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h2 class=""><span class="td-color disco">{{item.get_disco|floatformat:2}}</span>
+                                    <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                        <defs>
+                                            <style>
+                                                .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                            </style>
+                                        </defs>
+                                        <title>manat</title>
+                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                    </svg>
+                                </h2>
+                            </td>
+                            <td><a href="#" class="icon" id="delete-order-item"><i data-id={{item.id}} class="ti-close del"></i></a></td>
+                            <td>
+                                <h2 class="td-color"> <span class="td-color price-total">{{item.get_total|floatformat:2}}</span>
+                                    <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                        <defs>
+                                            <style>
+                                                .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                            </style>
+                                        </defs>
+                                        <title>manat</title>
+                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                    </svg>
+                                </h2>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+                <table class="table cart-table table-responsive-md">
+                    <tfoot>
+                        <tr>
+                            <td>Ümumi qiymət:</td>
+                            <td>
+                                <h2 class="d-flex"><span class="price-total-grand">{{order.get_cart_total|floatformat:2}}</span>
+                                    <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                        <defs>
+                                            <style>
+                                                .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                            </style>
+                                        </defs>
+                                        <title>manat</title>
+                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                    </svg>
+                                </h2>
+                            </td>
+                        </tr>
+                        </tfoot>
+                        <tfoot>
+                        <tr>
+                            <td style="font-size: 12px;">Ümumi endirim:</td>
+                            <td>
+                                <h4 class="d-flex"><span class="discount-total-grand">{{order.get_discount_total|floatformat:2}}</span>
+                                    <svg style='width: 1em; height: 1em;' class="ml-2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.41 32.09">
+                                        <defs>
+                                            <style>
+                                4              .cls-1<!-- -->{<!-- -->fill:#2b2929<!-- -->}
+                                            </style>
+                                    4</defs>
+                                        <title>manat</title>
+                                        <path class="cls-1" d="M312.33 418.63q-4.54-9.25-13.63-9.89l-.11-3.83-2.26.92-.14 2.9q-8.91.56-13.57 9.73-3.89 7.71-3.89 18.54h5.51c.2-16 5.47-24.67 11.88-26l-.7 23.66 4-1.37-.65-22.41c6.43.75 11.89 9.45 12 26.1h5.41q-.09-10.85-3.81-18.37z" transform="translate(-278.73 -404.91)" id="Layer_1-2"></path>
+                                    </svg>
+                                </h4>
+                            </td>
+                        </tr>
+                        </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="row cart-buttons">
+            <div class="col-6"><a href="{% url 'index:home' %}" class="btn btn-solid">ALIŞ-VERİŞƏ DAVAM ET</a></div>
+            <div class="col-6"><a href="{% url 'order:checkout' %}" class="btn btn-solid">SİFARİŞ VER</a></div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    // function get_cart_count(){
+    //     fetch(url_count, {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'X-CSRFToken': csrftoken
+    // },
+    // })
+    // .then(res => res.text())
+    // .then(res => addCartCountToLocalStorage(res))
+    // }
+
+
+    // function updateCart(){
+    //     console.log("girdi update carta")
+    //     let itemCountLocStorage = localStorage.getItem('cartItems')
+    //     itemCountLocStorage = parseInt(itemCountLocStorage)
+    //     console.log(`update cartdayam, localdaki deyer: ${itemCountLocStorage}`)
+    //     cart_badge.innerHTML = itemCountLocStorage
+    // }
+
+    // updateCart()
+
+    
+
+    let getGrandTotal = (arr) => {
+                let sum = 0
+                for (let i of arr){
+                    sum += i
+                }
+                return sum
+            }
+
+    let delElem = document.querySelectorAll('.del')
+    console.log(delElem)
+    for (let i = 0; i < delElem.length; i++){
+        delElem[i].addEventListener("click", confirm_delete, false)
+    }
+
+
+    function confirm_delete(e){
+
+        let id = e.target.getAttribute('data-id')
+        e.target.closest("tr").remove()
+        // console.log(`id delete ${id}`)
+
+        const url = `${domain_api_base}api-order/orderItem-delete/${id}/`;
+
+        let allTotalPrices = document.querySelectorAll(".price-total");
+        let allDiscounst = document.querySelectorAll(".disco");
+
+        // console.log("Welcome to delete")
+
+        discountsArrInt = []
+
+        for (let i=0; i < allDiscounst.length; i++){
+            discountsArrInt.push(parseInt(allDiscounst[i].innerHTML))
+        }
+        // console.log(`discountlar: ${discountsArrInt}`)
+
+        document.querySelector(".discount-total-grand").innerHTML = getGrandTotal(discountsArrInt).toFixed(2)
+
+        grandTotalPriceInt = []
+
+        for (let i=0; i < allTotalPrices.length; i++){
+            grandTotalPriceInt.push(parseInt(allTotalPrices[i].innerHTML))
+        }
+
+        document.querySelector(".price-total-grand").innerHTML = getGrandTotal(grandTotalPriceInt).toFixed(2)
+
+        e.preventDefault()
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+        })
+        .then(res => res.text()) // or res.json()
+        .then(res => console.log(`deleted ${res}`))
+        // .then(res => addCartCountToLocalStorage(document.querySelectorAll(".product-title").length))
+
+        let inputValues = document.querySelectorAll('.change-quantity')
+
+        let totalQuantity = 0;
+        if(inputValues.length > 0){
+            for(let i = 0; i < inputValues.length; i++){
+                totalQuantity += parseInt(inputValues[i].value)
+            }
+            console.log(`delete zamani totalQuantity: ${totalQuantity}`)
+            cart_badge.innerText = totalQuantity
+            localStorage.setItem('cartItems', totalQuantity)
+
+        }else if(inputValues.length === 0){
+            cart_badge.innerText = 0
+            localStorage.setItem('cartItems', 0)
+        }
+
+    }
+
+    let changeQuantElem = document.querySelectorAll(".change-quantity")
+    
+
+    for (let i = 0; i < changeQuantElem.length; i++){
+        changeQuantElem[i].addEventListener("change", confirm_update, false)
+    }
+
+    function confirm_update(e){
+
+        const discount_unit = parseInt(e.target.getAttribute('discount-unit'));
+        console.log(`discount unit: ${discount_unit}`)
+        let id_patch = e.target.getAttribute('data-id-patch')
+        const url_patch = `${domain_api_base}api-order/orderItem-patch/${id_patch}/`;
+        const url_del = `${domain_api_base}api-order/orderItem-delete/${id_patch}/`;
+
+        let clickedTr = e.target.closest("tr")
+        clickedPrice = parseInt(e.target.closest("tr").childNodes[5].querySelector("h2").innerHTML.split(" ")[1])
+        clickedDiscount = parseInt(e.target.closest("tr").childNodes[9].querySelector(".disco").innerHTML)
+        
+        console.log(`clicedPrice: ${clickedPrice}`)
+        console.log(`clicedDiscount: ${clickedDiscount}`)
+        let quantity = e.target.value
+        console.log(`quantity update: ${quantity}`)
+
+        let inputValues = document.querySelectorAll('.change-quantity')
+
+        let totalQuantity = 0;
+        if(inputValues.length !== 1 && inputValues.length !==0){
+            for(let i = 0; i < inputValues.length; i++){
+                if(inputValues.length !== 1){
+                    totalQuantity += parseInt(inputValues[i].value)
+                }
+            }
+            cart_badge.innerText = totalQuantity
+            localStorage.setItem('cartItems', totalQuantity)
+        }else if(inputValues.length === 1 && parseInt(quantity) !== 0){
+                    totalQuantity = parseInt(quantity)
+                    cart_badge.innerText = totalQuantity
+                    localStorage.setItem('cartItems', totalQuantity)
+        }else if(inputValues.length === 0){
+            cart_badge.innerText = 0
+            localStorage.setItem('cartItems', 0)
+        }
+        
+        console.log(`Quantity: ${quantity}`);
+        console.log(`ClickedPrice: ${clickedPrice}`);
+        console.log(`ClickedDiscount: ${clickedDiscount}`);
+        // console.log(`TotalPrice-in yeri: ${e.target.closest("tr").childNodes[9].innerHTML}`)
+        e.target.closest("tr").childNodes[9].querySelector(".disco").innerHTML = (discount_unit * quantity).toFixed(2)
+        e.target.closest("tr").childNodes[13].querySelector(".price-total").innerHTML = (clickedPrice * quantity).toFixed(2)
+
+        let allDiscounst = document.querySelectorAll(".disco");
+
+        // console.log("Welcome to delete")
+
+        discountsArrInt = []
+
+        for (let i=0; i < allDiscounst.length; i++){
+            discountsArrInt.push(parseInt(allDiscounst[i].innerHTML))
+        }
+        console.log(`discountlar: ${discountsArrInt}`)
+
+        document.querySelector(".discount-total-grand").innerHTML = getGrandTotal(discountsArrInt).toFixed(2)
+
+        let allTotalPrices = document.querySelectorAll(".price-total")
+
+        grandTotalPriceInt = []
+
+        for (let i=0; i < allTotalPrices.length; i++){
+            grandTotalPriceInt.push(parseInt(allTotalPrices[i].innerHTML))
+        }
+
+        document.querySelector(".price-total-grand").innerHTML = getGrandTotal(grandTotalPriceInt).toFixed(2)
+
+        if (e.target.value != 0) {
+            fetch(url_patch, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                quantity: e.target.value
+                })
+        }, { mode: 'no-cors'})
+        .then(res => res.text()) // or res.json()
+        // .then(res => console.log(`updated ${res}`))
+        } else if (e.target.value == 0) {
+
+            if (e.target.value == 0 && inputValues.length > 1){
+                let itemCountLocStorage = localStorage.getItem('cartItems')
+                itemCountLocStorage = parseInt(itemCountLocStorage)
+                cart_badge.innerText = itemCountLocStorage
+                localStorage.setItem('cartItems', itemCountLocStorage)
+            }else if(e.target.value == 0 && inputValues.length === 1){
+                let itemCountLocStorage = localStorage.getItem('cartItems')
+                itemCountLocStorage = parseInt(itemCountLocStorage)
+                cart_badge.innerText = 0
+                localStorage.setItem('cartItems', 0)
+            }
+            
+
+            e.target.closest("tr").remove()
+
+            e.preventDefault()
+            fetch(url_del, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            })
+            .then(res => res.text()) // or res.json()
+            .then(res => console.log(`deleted ${res}`))
+        }
+
+    }
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    // addCartCountToLocalStorage(document.querySelectorAll(".product-title").length)
+    console.log(document.querySelectorAll(".product-title").length)
+
+
+
+
+</script>
+
+<!--section end-->
+{% else %}
+	<h1 style="text-align:center;padding: 100px">No Items in cart</h1>
+{% endif %}
+
+
+{% endblock content %}

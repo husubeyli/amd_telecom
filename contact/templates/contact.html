@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <!-- breadcrumb start -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title">
+                        <h2>Əlaqə</h2>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index:home' %}">ƏSAS SƏHİFƏ</a></li>
+                            <li class="breadcrumb-item active">Əlaqə</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb End -->
+
+
+    
+    <!--section start-->
+    <section class="contact-page section-b-space">
+        <div class="container">
+            <div class="row section-b-space">
+                <div class="col-lg-7 map">
+                    <iframe
+                        src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=AMD%20Telecom+(AMD%20telecom)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                        allowfullscreen></iframe>
+                </div>
+                
+                <div class="col-lg-5">
+                    <div class="contact-right boyuk">
+                        <ul>
+                            <li>
+                                <div class="contact-icon"><img src='{% static "images/icon/phone.png" %}'
+                                        alt="Generic placeholder image">
+                                    <h6 class="boyuk">Əlaqə</h6>
+                                </div>
+                                <div class="media-body ">
+                
+                                    <p class="pt-4">012 556 16 16 </p>
+                                   
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contact-icon"><i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                    <h6 class="boyuk">Whatsapp</h6>
+                                </div>
+                                <div class="media-body">
+                                    <p class="pt-4">070 556 16 16</p>
+                                
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contact-icon"><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    <h6 class="boyuk">Satış nöqtəmiz</h6>
+                                </div>
+                                <div class="media-body">
+                                    <p class="pt-4">Xəzər rayonu, Binə qəsəbəsi, Mərkəz.</p>
+                                 
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contact-icon"><img src='{% static "images/icon/email.png" %}'
+                                        alt="Generic placeholder image">
+                                    <h6 class="boyuk">Email</h6>
+                                </div>
+                                <div class="media-body">
+                                   
+                                    <p class="pt-4">info@amdtelecom.az</p>
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .boyuk {
+                    text-transform:initial !important;
+                  
+                    
+                    
+                }
+            </style>
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="theme-form" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                {{ form.first_name.label_tag }}
+                                {{ form.first_name }}
+                                {{ form.first_name.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.last_name.label_tag }}
+                                {{ form.last_name }}
+                                {{ form.last_name.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.phone_number.label_tag }}
+                                {{ form.phone_number }}
+                                {{ form.phone_number.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form.message.label_tag }}
+                                {{ form.message }}
+                                {{ form.message.errors }}
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-solid" type="submit">Göndərmək</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Section ends-->
+
+{% endblock content %}
+
